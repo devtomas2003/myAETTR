@@ -35,9 +35,11 @@ export default function Home(){
     const [background] = useState<Number>(Math.floor(Math.random() * (2 - 1 + 1) + 1));
 
     function startAuth(){
-        api.get('/getRedirectToken/e3ef2e45-0953-4850-952d-b1822d35a02d').then(function(res){
+        api.get('/getExternalAuthToken').then(function(res){
             if(res.data.status === "ok"){
-                location.href = "http://127.0.0.1:3000/login?authSession=" + res.data.redirectToken + "&callbackUrl=http://127.0.0.1:3001/";
+                location.href = "http://127.0.0.1:3000/login?authSession=" + res.data.token;
+                // const expires = new Date(Date.now() + (2 * 60 * 60 * 1000)).toUTCString()
+                // document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires;
             }else{
                 setLoginError("Ocorreu um erro interno no serviço de autenticação!");
             }
