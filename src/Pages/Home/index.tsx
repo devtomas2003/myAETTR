@@ -26,20 +26,74 @@ import { ImExit } from 'react-icons/im';
 import { FaUserShield } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import Security from '../../components/Security';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '../../services/api';
 
 export default function Home(){
     const [showUnauth, setShowUnauth] = useState<Boolean>(true);
     const [loginError, setLoginError] = useState<String>('');
     const [background] = useState<Number>(Math.floor(Math.random() * (2 - 1 + 1) + 1));
+    const [nome, setNome] = useState<String>('');
+
+    useEffect(function(){
+        function testAuth(){
+            if(sessionStorage.getItem("authToken") === null && sessionStorage.getItem("authSession") !== null){
+                api.get('/checkOAuth/' + sessionStorage.getItem("authSession")).then(function(res){
+                    if(res.data.status === "ok"){
+                        sessionStorage.setItem("authToken", res.data.token);
+                        sessionStorage.removeItem("authSession");
+                        getBasicInfo();
+                        setShowUnauth(false);
+                    }else{
+                        sessionStorage.removeItem("authSession");        
+                        setLoginError("Operação de autenticação cancelada pelo utilizador!");
+                    }
+                }).catch(() => {
+                    sessionStorage.removeItem("authSession");
+                    setLoginError("Ocorreu um erro interno no serviço de autenticação!");
+                });
+            }else if(sessionStorage.getItem("authToken") !== null && sessionStorage.getItem("authSession") === null){
+                api.get('/validateJwt/', {
+                    headers: {
+                        "Authorization": "Bearer " + sessionStorage.getItem("authToken")
+                    }
+                }).then(function(res){
+                    if(res.data.status === "ok"){
+                        getBasicInfo();
+                        setShowUnauth(false);
+                    }else{
+                        sessionStorage.removeItem("authToken");
+                    }
+                }).catch(() => {
+                    sessionStorage.removeItem("authToken");
+                    setLoginError("Ocorreu um erro interno no serviço de autenticação!");
+                });
+            }
+        }
+        testAuth();
+    }, []);
+
+    function getBasicInfo(){
+        api.get('/getBasicInfo', {
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("authToken")
+            }
+        }).then(function(res){
+            if(res.data.status !== "error"){
+                setNome(res.data.amigavel);
+            }else{
+                alert("erro");
+            }
+        }).catch(() => {
+            alert("erro");
+        });
+    }
 
     function startAuth(){
         api.get('/getExternalAuthToken').then(function(res){
             if(res.data.status === "ok"){
                 location.href = "http://127.0.0.1:3000/login?authSession=" + res.data.token;
-                // const expires = new Date(Date.now() + (2 * 60 * 60 * 1000)).toUTCString()
-                // document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires;
+                sessionStorage.setItem("authSession", res.data.token);
             }else{
                 setLoginError("Ocorreu um erro interno no serviço de autenticação!");
             }
@@ -47,6 +101,7 @@ export default function Home(){
             setLoginError("Ocorreu um erro interno no serviço de autenticação!");
         });
     }
+
     return(
         <ZoneWindow>
             <MainContainer>
@@ -57,7 +112,7 @@ export default function Home(){
                     <DataAuthInfo>
                         { !showUnauth ?
                         <>
-                            <UserName>Tomás Figueiredo</UserName>
+                            <UserName>{nome}</UserName>
                             <BoxSideTopInfo>
                                 <LangChange>en</LangChange>
                                 <BtnExit>
@@ -77,7 +132,7 @@ export default function Home(){
                 </UserAuthInfo>
                 { loginError !== "" ?
                 <ErrorLine>
-                    <ErrorText>ASD</ErrorText>
+                    <ErrorText>{loginError}</ErrorText>
                     <BtnCloseError onClick={() => {setLoginError('')}}>
                         <AiOutlineClose size={18} color="#721c24" />
                     </BtnCloseError>
