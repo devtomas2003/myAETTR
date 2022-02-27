@@ -43,6 +43,7 @@ export default function Home(){
     const [background] = useState<Number>(Math.floor(Math.random() * (2 - 1 + 1) + 1));
     const [nome, setNome] = useState<String>('');
     const [modalAtive, setModalAtive] = useState<string>('');
+    const [activePage, setActivePage] = useState<string>('default');
     const [haveOTP, setHaveOTP] = useState<Boolean>(false);
 
     const [langList, setLangList] = useState<langProps>();
@@ -155,6 +156,27 @@ export default function Home(){
         });
     }
 
+    function closeSession(){
+        api.get('/logout', {
+            headers: {
+                "Authorization": "Bearer " + sessionStorage.getItem("authToken")
+            }
+        }).then(function(res){
+            if(res.data.status !== "error"){
+                sessionStorage.removeItem("authToken");
+                setShowUnauth(true);
+            }else{
+                sessionStorage.removeItem("authToken");
+                setShowUnauth(true);
+                setLoginErrorSys(true);
+            }
+        }).catch(() => {
+            sessionStorage.removeItem("authToken");
+            setShowUnauth(true);
+            setLoginErrorSys(true);
+        });
+    }
+
     return(
         <ZoneWindow>
             <MainContainer>
@@ -168,7 +190,7 @@ export default function Home(){
                             <UserName>{nome}</UserName>
                             <BoxSideTopInfo>
                                 <LangChange onClick={() => {changeLang()}}>{langList?.linkLang}</LangChange>
-                                <BtnExit>
+                                <BtnExit onClick={() => {closeSession()}} title={langList?.logoutBtn?.toString()}>
                                     <ImExit size={18} color="#fff" />
                                 </BtnExit>
                             </BoxSideTopInfo>
@@ -202,13 +224,18 @@ export default function Home(){
                 { !showUnauth ?
                 <ContentPage>
                     <MenuBox>
-                        <MenuItem>{langList?.menuProc}</MenuItem>
-                        <MenuItem>{langList?.menuCards}</MenuItem>
-                        <MenuItem>{langList?.menuSec}</MenuItem>
-                        <MenuItem>{langList?.menuMails}</MenuItem>
+                        <MenuItem isActive={activePage === "default" ? true : false}>{langList?.menuStart}</MenuItem>
+                        <MenuItem isActive={false}>{langList?.menuProc}</MenuItem>
+                        <MenuItem isActive={false}>{langList?.menuCards}</MenuItem>
+                        <MenuItem isActive={activePage === "security" ? true : false} onClick={() => {setActivePage('security')}}>{langList?.menuSec}</MenuItem>
+                        <MenuItem isActive={false}>{langList?.menuMails}</MenuItem>
                     </MenuBox>
                     <ContainerBox>
-                        <Security modalAtive={setModalAtive} setHaveOTP={setHaveOTP} haveOPT={haveOTP} />
+                        { activePage === "default" ?
+                        <h1>Default</h1>
+                        : activePage === "security" ?
+                        <Security modalAtive={setModalAtive} setHaveOTP={setHaveOTP} haveOPT={haveOTP} lang={langList || {}} />
+                        : <h1>Not found</h1> }
                     </ContainerBox>
                 </ContentPage>
                 :

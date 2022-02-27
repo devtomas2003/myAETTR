@@ -130,6 +130,16 @@ export default function OTP(props: OTPProps){
             });
         }
     }
+    function submitActOTP(key: string){
+        if(key === "Enter" || key === "NumpadEnter"){
+            activeOTP();
+        }
+    }
+    function submitDesOTP(key: string){
+        if(key === "Enter" || key === "NumpadEnter"){
+            desactivateOTP();
+        }
+    }
     return (
         <Container>
             <HeaderModal>
@@ -159,7 +169,7 @@ export default function OTP(props: OTPProps){
                 </SensitiveInfo>
                 : null }
                 <InstLineTwo>{props.lang.modOTPSecondEnStep}</InstLineTwo>
-                <OTPInput type="text" autoComplete="off" autoCapitalize="off" value={otpCode} placeholder={props.lang.modOTPInputPH?.toString()} onChange={(e) => { hideTypingOTP(e.target.value.toString()) }} />
+                <OTPInput type="text" autoComplete="off" autoCapitalize="off" value={otpCode} onKeyUp={(e) => {submitActOTP(e.code)}} placeholder={props.lang.modOTPInputPH?.toString()} onChange={(e) => { hideTypingOTP(e.target.value.toString()) }} />
                 { showError ? <ErrorText>{props.lang.modOTPInvalidCode}</ErrorText> : null }
                 <BtnModalOTP onClick={() => {activeOTP()}}>
                     <AiOutlineCheck size={25} color="#fff" />
@@ -182,7 +192,7 @@ export default function OTP(props: OTPProps){
                 <DesactivateBox>
                     <TextQuestions>{props.lang.modOTPDisQuest}</TextQuestions>
                     <TextQuestions>{props.lang.modOTPDisInst}</TextQuestions>
-                    <OTPInput type="text" autoComplete="off" autoCapitalize="off" placeholder={props.lang.modOTPInputPH?.toString()} value={otpCode} onChange={(e) => { hideTypingOTP(e.target.value.toString()) }} />
+                    <OTPInput type="text" autoComplete="off" autoCapitalize="off" placeholder={props.lang.modOTPInputPH?.toString()} onKeyUp={(e) => {submitDesOTP(e.code)}} value={otpCode} onChange={(e) => { hideTypingOTP(e.target.value.toString()) }} />
                     { showError ? <ErrorText>{props.lang.modOTPInvalidCode}</ErrorText> : null }
                     <BtnModalOTP onClick={() => {desactivateOTP()}}>
                         <GiShieldDisabled size={25} color="#fff" />

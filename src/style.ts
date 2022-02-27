@@ -6,6 +6,6 @@ export default createGlobalStyle`
         padding: 0;
     }
     body{
-        font-family: 'PT Sans', sans-serif;
+        font-family: 'Open Sans', sans-serif;
     }
 `;

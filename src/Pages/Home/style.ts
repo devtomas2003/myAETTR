@@ -4,12 +4,15 @@ type propsBG = {
     bgID: Number;
 };
 
+type propsMenu = {
+    isActive: Boolean;
+};
+
 export const ZoneWindow = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 100%;
-    position: fixed;
     width: 100%;
 `;
 
@@ -59,7 +62,7 @@ export const BtnExit = styled.div`
     padding: 3px;
     &:hover{
         cursor: pointer;
-        background: #0162af;
+        background: #1992c2;
     }
 `;
 
@@ -71,11 +74,13 @@ export const ContentPage = styled.div`
 
 export const MenuBox = styled.div`
     background: #3a4b55;
-    width: 350px;
-    height: 100vh;
+    width: 360px;
+    height: initial;
 `;
 
 export const MenuItem = styled.p`
+    background: ${(props: propsMenu) => props.isActive ? '#2C3A42' : 'transparent'};
+    border-left: ${(props: propsMenu) => props.isActive ? '3px solid #66b85a' : '3px solid #3a4b55'};
     user-select: none;
     color: #fff;
     &:not(:first-child){
@@ -85,16 +90,15 @@ export const MenuItem = styled.p`
         border-bottom: 1px solid #49565d;
     }
     padding: 13px;
-    border-left: 3px solid #3a4b55;
     &:hover{
         background: #2C3A42;
-        border-left: 3px solid #0162af;
+        border-left: 3px solid #1992c2;
         cursor: pointer;
     }
 `;
 
 export const ContainerBox = styled.div`
-    padding: 10px;
+    padding: 10px 0px 10px 10px;
     width: 100%;
 `;
 

@@ -1,5 +1,6 @@
 export type langProps = {
     linkLang?: String,
+    menuStart?: String,
     menuProc?: String,
     menuCards?: String,
     menuSec?: String,
@@ -29,4 +30,22 @@ export type langProps = {
     modOTPDisSucTit?: String,
     modOTPDisAuthIns?: String,
     modOTPDisAppIns?: String
+    securityTitle?: String,
+    authTwoFactorTit?: String,
+    enabledTwoFacTxt?: String,
+    disabledTwoFacTxt?: String,
+    titleListAuth?: String,
+    statusAuthorizedOTP?: String,
+    statusAuthorizedPass?: String,
+    appTopic?: String,
+    stateTopic?: String,
+    requestHourTopic?: String,
+    startHourTopic?: String,
+    endHourTopic?: String,
+    invalidLogCred?: String,
+    revokedLog?: String,
+    waitingOTP?: String,
+    timeSeparator?: String,
+    rovokeSuggest?: String,
+    logoutBtn?: String
 };

@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
-export const Container = styled.div``;
+export const Container = styled.div`
+
+`;
 
 export const ModalTitle = styled.h1`
-    font-size: 20px;
+    font-size: 18px;
 `;
 
 export const HeaderModal = styled.div`
@@ -24,7 +26,12 @@ export const ModalClose = styled.div`
     }
 `;
 
-export const ModalBody = styled.div``;
+export const ModalBody = styled.div`
+    background: #f2f7f9;
+    padding: 10px;
+    border-left: 3px solid #1992c2;
+    margin-top: 5px;
+`;
 
 export const QRCodeImg = styled.img`
     width: 250px;
@@ -123,20 +130,16 @@ export const SucessText = styled.p`
 `;
 
 export const SucessTextInstOne = styled.p`
-    font-size: 20px;
+    font-size: 18px;
     margin-top: 10px;
     margin-bottom: 5px;
 `;
 
 export const SucessTextInstTwo = styled.p`
-    font-size: 20px;
+    font-size: 18px;
     margin-bottom: 10px;
 `;
 
 export const DesactivateBox = styled.div``;
 
-export const TextQuestions = styled.p`
-    &:first-child{
-        margin-top: 10px;
-    }
-`;
+export const TextQuestions = styled.p``;
