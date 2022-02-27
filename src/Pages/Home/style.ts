@@ -8,10 +8,14 @@ export const ZoneWindow = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100%;
+    position: fixed;
+    width: 100%;
 `;
 
 export const MainContainer = styled.div`
-    width: 75%;
+    width: 70%;
+    height: 100%;
 `;
 
 export const HeaderBackground = styled.div`
@@ -68,6 +72,7 @@ export const ContentPage = styled.div`
 export const MenuBox = styled.div`
     background: #3a4b55;
     width: 350px;
+    height: 100vh;
 `;
 
 export const MenuItem = styled.p`

@@ -32,20 +32,9 @@ import { useEffect, useState } from 'react';
 import { api } from '../../services/api';
 import { sha256 } from 'js-sha256';
 import OTP from '../../modals/OTP';
+import { langProps } from '../../types/Lang';
 
 export default function Home(){
-    type langProps = {
-        linkLang: String,
-        menuProc: String,
-        menuCards: String,
-        menuSec: String,
-        menuMails: String,
-        authCanUser: String,
-        authSysError: String,
-        userUnauth: String,
-        unauthMessage: String,
-        unauthBtn: String
-    }
 
     const [showUnauth, setShowUnauth] = useState<Boolean>(true);
     const [loginErrorSys, setLoginErrorSys] = useState<Boolean>(false);
@@ -237,7 +226,7 @@ export default function Home(){
             { modalAtive === 'otp' ?
             <ModalBox>
                 <ModalContent>
-                    <OTP modalAtive={setModalAtive} setHaveOTP={setHaveOTP} haveOPT={haveOTP} />
+                    <OTP modalAtive={setModalAtive} setHaveOTP={setHaveOTP} haveOPT={haveOTP} lang={langList || {}} />
                 </ModalContent>
             </ModalBox>
             : null }

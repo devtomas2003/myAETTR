@@ -32,11 +32,13 @@ import { GiShieldDisabled } from 'react-icons/gi';
 import { useEffect, useState } from 'react';
 import { api } from '../../services/api';
 import QRCode from 'qrcode';
+import { langProps } from '../../types/Lang';
 
 type OTPProps = {
     modalAtive: React.Dispatch<React.SetStateAction<string>>;
     setHaveOTP: React.Dispatch<React.SetStateAction<Boolean>>;
     haveOPT: Boolean;
+    lang: langProps;
 }
 
 export default function OTP(props: OTPProps){
@@ -87,8 +89,10 @@ export default function OTP(props: OTPProps){
                     location.reload();
                 }else if(res.data.status === "error-notvalid"){
                     setShowError(true);
+                    setOTPCode('');
                 }else{
                     setActiveWindow('sucessActivate');
+                    setOTPCode('');
                     props.setHaveOTP(true);
                 }
             }).catch(() => {
@@ -115,8 +119,10 @@ export default function OTP(props: OTPProps){
                     location.reload();
                 }else if(res.data.status === "error-notvalid"){
                     setShowError(true);
+                    setOTPCode('');
                 }else{
                     setActiveWindow('sucessDesactivate');
+                    setOTPCode('');
                     props.setHaveOTP(false);
                 }
             }).catch(() => {
@@ -127,7 +133,7 @@ export default function OTP(props: OTPProps){
     return (
         <Container>
             <HeaderModal>
-                <ModalTitle>Configurar OTP (One-Time Password)</ModalTitle>
+                <ModalTitle>{props.lang.modOTPTitle}</ModalTitle>
                 <ModalClose onClick={() => { props.modalAtive('') }}>
                     <AiOutlineClose size={22} color="#444" />
                 </ModalClose>
@@ -135,29 +141,29 @@ export default function OTP(props: OTPProps){
             <ModalBody>
                 { activeWindow === "normal" ?
                 <>
-                <InstLineOne>1. Leia este QrCode através de uma das seguintes apps:</InstLineOne>
+                <InstLineOne>{props.lang.modOTPFirstEnStep}</InstLineOne>
                 <ListApps>
                     <ListLine><ListLink href="https://support.google.com/accounts/answer/1066447?hl=en&co=GENIE.Platform%3DAndroid" target="_blank">Google Authenticator</ListLink></ListLine>
                     <ListLine><ListLink href="https://www.microsoft.com/pt-pt/security/mobile-authenticator-app" target="_blank">Microsoft Authenticator</ListLink></ListLine>
-                    <ListLine><ListLink href="https://pt.wikipedia.org/wiki/Senha_descart%C3%A1vel" target="_blank">Outra app que reconheça códigos OTP</ListLink></ListLine>
+                    <ListLine><ListLink href="https://pt.wikipedia.org/wiki/Senha_descart%C3%A1vel" target="_blank">{props.lang.modOTPLinkApp}</ListLink></ListLine>
                 </ListApps>
-                <InstLinePq>Caso não consiga ler o QrCode poderá introduzir o código abaixo</InstLinePq>
+                <InstLinePq>{props.lang.modOTPCannRQr}</InstLinePq>
                 <BtnModalOTP onClick={() => {setSensitiveInfo(!sensitiveInfo)}}>
                     <BiShow size={25} color="#fff" />
-                    <BtnMOText>{ sensitiveInfo ? 'Esconder QrCode e código' : 'Mostrar QrCode e código' }</BtnMOText>
+                    <BtnMOText>{ sensitiveInfo ? props.lang.modOTPHideQrCo : props.lang.modOTPShowQrCo }</BtnMOText>
                 </BtnModalOTP>
                 { sensitiveInfo ?
                 <SensitiveInfo>
                     <QRCodeImg src={qrcode} title="OTP" />
-                    <OTPCode>Código: {otpActCode}</OTPCode>
+                    <OTPCode>{props.lang.modOTPPrefCode}: {otpActCode}</OTPCode>
                 </SensitiveInfo>
                 : null }
-                <InstLineTwo>2. Vamos testar? Introduza abaixo o código que está a visualizar na app, e clique em "Ativar".</InstLineTwo>
-                <OTPInput type="text" autoComplete="off" autoCapitalize="off" value={otpCode} onChange={(e) => { hideTypingOTP(e.target.value.toString()) }} />
-                { showError ? <ErrorText>O código OTP é invalido, tente novamente!</ErrorText> : null }
+                <InstLineTwo>{props.lang.modOTPSecondEnStep}</InstLineTwo>
+                <OTPInput type="text" autoComplete="off" autoCapitalize="off" value={otpCode} placeholder={props.lang.modOTPInputPH?.toString()} onChange={(e) => { hideTypingOTP(e.target.value.toString()) }} />
+                { showError ? <ErrorText>{props.lang.modOTPInvalidCode}</ErrorText> : null }
                 <BtnModalOTP onClick={() => {activeOTP()}}>
                     <AiOutlineCheck size={25} color="#fff" />
-                    <BtnMOText>Ativar</BtnMOText>
+                    <BtnMOText>{props.lang.modOTPEnable}</BtnMOText>
                 </BtnModalOTP>
                 </>
                 : activeWindow === "sucessActivate" ?
@@ -165,22 +171,22 @@ export default function OTP(props: OTPProps){
                     <ImgSucBox>
                         <AiOutlineCheckCircle size={250} color="#32a852" />
                     </ImgSucBox>
-                    <SucessText>Código OTP ativado com sucesso! :)</SucessText>
-                    <SucessTextInstOne>A partir de agora em todas as autenticações será pedido o código OTP.</SucessTextInstOne>
+                    <SucessText>{props.lang.modOTPEnSuc}</SucessText>
+                    <SucessTextInstOne>{props.lang.modOTPEnInst}</SucessTextInstOne>
                     <BtnModalOTP onClick={() => {props.modalAtive('')}}>
                         <AiOutlineClose size={25} color="#fff" />
-                        <BtnMOText>Fechar janela</BtnMOText>
+                        <BtnMOText>{props.lang.modOTPCloseWindow}</BtnMOText>
                     </BtnModalOTP>
                 </SucessBox>
                 : activeWindow === "desactivate" ?
                 <DesactivateBox>
-                    <TextQuestions>Pretende desativar o OTP?</TextQuestions>
-                    <TextQuestions>Se sim, coloque na caixa abaixo o código OTP atual e a seguir clique em "Desativar".</TextQuestions>
-                    <OTPInput type="text" autoComplete="off" autoCapitalize="off" value={otpCode} onChange={(e) => { hideTypingOTP(e.target.value.toString()) }} />
-                    { showError ? <ErrorText>O código OTP é invalido, tente novamente!</ErrorText> : null }
+                    <TextQuestions>{props.lang.modOTPDisQuest}</TextQuestions>
+                    <TextQuestions>{props.lang.modOTPDisInst}</TextQuestions>
+                    <OTPInput type="text" autoComplete="off" autoCapitalize="off" placeholder={props.lang.modOTPInputPH?.toString()} value={otpCode} onChange={(e) => { hideTypingOTP(e.target.value.toString()) }} />
+                    { showError ? <ErrorText>{props.lang.modOTPInvalidCode}</ErrorText> : null }
                     <BtnModalOTP onClick={() => {desactivateOTP()}}>
                         <GiShieldDisabled size={25} color="#fff" />
-                        <BtnMOText>Desativar OTP</BtnMOText>
+                        <BtnMOText>{props.lang.modOTPDisBtn}</BtnMOText>
                     </BtnModalOTP>
                 </DesactivateBox>
                 :
@@ -188,12 +194,12 @@ export default function OTP(props: OTPProps){
                     <ImgSucBox>
                         <GiShieldDisabled size={250} color="#32a852" />
                     </ImgSucBox>
-                    <SucessText>Código OTP desativado com sucesso! :)</SucessText>
-                    <SucessTextInstOne>Agora em todas as autenticações não será mais pedido o código OTP.</SucessTextInstOne>
-                    <SucessTextInstTwo>Poderá também remover a geração do mesmo na sua app de códigos.</SucessTextInstTwo>
+                    <SucessText>{props.lang.modOTPDisSucTit}</SucessText>
+                    <SucessTextInstOne>{props.lang.modOTPDisAuthIns}</SucessTextInstOne>
+                    <SucessTextInstTwo>{props.lang.modOTPDisAppIns}</SucessTextInstTwo>
                     <BtnModalOTP onClick={() => {props.modalAtive('')}}>
                         <AiOutlineClose size={25} color="#fff" />
-                        <BtnMOText>Fechar janela</BtnMOText>
+                        <BtnMOText>{props.lang.modOTPCloseWindow}</BtnMOText>
                     </BtnModalOTP>
                 </SucessBox>
                 }
