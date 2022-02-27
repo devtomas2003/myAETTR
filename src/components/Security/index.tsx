@@ -19,24 +19,54 @@ import {
 
 import { AiOutlineMinus } from 'react-icons/ai';
 import { BsFillPencilFill } from 'react-icons/bs';
+import { useEffect } from 'react';
+import { api } from '../../services/api';
 
-export default function Security(){
+type SecurityProps = {
+    modalAtive: React.Dispatch<React.SetStateAction<string>>;
+    setHaveOTP: React.Dispatch<React.SetStateAction<Boolean>>;
+    haveOPT: Boolean;
+}
+
+export default function Security(props: SecurityProps){
+
+    useEffect(function(){
+        function populateSecInfo(){
+            api.get('/getSecurityInfo', {
+                headers: {
+                    "Authorization": "Bearer " + sessionStorage.getItem("authToken")
+                }
+            }).then(function(res){
+                if(res.data.status !== "error"){
+                    props.setHaveOTP(res.data.otpEnable);
+                }else{
+                    location.reload();
+                }
+            }).catch(() => {
+                location.reload();
+            });
+        }
+        populateSecInfo();
+    }, []);
+    function openOTPModal(){
+        props.modalAtive('otp');
+    }
     return(
         <>
             <TitleContent>Segurança</TitleContent>
             <BoxLinks>
                 <SecState>
                     <StateTopic>Autenticação de 2 fatores</StateTopic>
-                    <StateMiniWin>
-                        <MiniWinText>Ativa</MiniWinText>
+                    <StateMiniWin isAtive={props.haveOPT}>
+                        <MiniWinText>{props.haveOPT ? 'Ativa' : 'Inativa'}</MiniWinText>
                     </StateMiniWin>
-                    <BoxChange>
+                    <BoxChange onClick={() => {openOTPModal()}}>
                         <BsFillPencilFill size={15} color="#444" />
                     </BoxChange>
                 </SecState>
                 <SecState>
                     <StateTopic>Password</StateTopic>
-                    <StateMiniWin>
+                    <StateMiniWin isAtive={true}>
                         <MiniWinText>********</MiniWinText>
                     </StateMiniWin>
                     <BoxChange>

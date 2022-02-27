@@ -19,7 +19,9 @@ import {
     LoginText,
     ErrorLine,
     ErrorText,
-    BtnCloseError
+    BtnCloseError,
+    ModalBox,
+    ModalContent
 } from './style';
 
 import { ImExit } from 'react-icons/im';
@@ -29,6 +31,7 @@ import Security from '../../components/Security';
 import { useEffect, useState } from 'react';
 import { api } from '../../services/api';
 import { sha256 } from 'js-sha256';
+import OTP from '../../modals/OTP';
 
 export default function Home(){
     type langProps = {
@@ -47,8 +50,12 @@ export default function Home(){
     const [showUnauth, setShowUnauth] = useState<Boolean>(true);
     const [loginErrorSys, setLoginErrorSys] = useState<Boolean>(false);
     const [loginErrorUsr, setLoginErrorUsr] = useState<Boolean>(false);
+
     const [background] = useState<Number>(Math.floor(Math.random() * (2 - 1 + 1) + 1));
     const [nome, setNome] = useState<String>('');
+    const [modalAtive, setModalAtive] = useState<string>('');
+    const [haveOTP, setHaveOTP] = useState<Boolean>(false);
+
     const [langList, setLangList] = useState<langProps>();
     const [lang, setLang] = useState<String>('en');
 
@@ -212,7 +219,7 @@ export default function Home(){
                         <MenuItem>{langList?.menuMails}</MenuItem>
                     </MenuBox>
                     <ContainerBox>
-                        <Security />
+                        <Security modalAtive={setModalAtive} setHaveOTP={setHaveOTP} haveOPT={haveOTP} />
                     </ContainerBox>
                 </ContentPage>
                 :
@@ -227,6 +234,13 @@ export default function Home(){
                 </ContentPage>
                 }
             </MainContainer>
+            { modalAtive === 'otp' ?
+            <ModalBox>
+                <ModalContent>
+                    <OTP modalAtive={setModalAtive} setHaveOTP={setHaveOTP} haveOPT={haveOTP} />
+                </ModalContent>
+            </ModalBox>
+            : null }
         </ZoneWindow>
     );
 }

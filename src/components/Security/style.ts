@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+type propsStatus = {
+    isAtive: Boolean;
+};
+
 export const TitleContent = styled.h1`
     font-size: 25px;
 `;
@@ -78,7 +82,7 @@ export const StateTopic = styled.p`
 `;
 
 export const StateMiniWin = styled.div`
-    background: #0162af;
+    background: ${(props: propsStatus) => props.isAtive ? '#0162af' : '#444'};
     display: flex;
     flex-direction: row;
     align-items: center;

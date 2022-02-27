@@ -164,3 +164,19 @@ export const BtnCloseError = styled.div`
         cursor: pointer;
     }
 `;
+
+export const ModalBox = styled.div`
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+`;
+
+export const ModalContent = styled.div`
+    background: #fff;
+    margin: 200px auto;
+    padding: 15px;
+    width: 35%;
+    box-shadow: 0 2px 3px rgb(0 0 0 / 55%);
+    border: 1px solid rgba(0,0,0,0.4);
+`;
