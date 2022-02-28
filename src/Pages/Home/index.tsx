@@ -32,6 +32,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../../services/api';
 import { sha256 } from 'js-sha256';
 import OTP from '../../modals/OTP';
+import ExitModal from '../../modals/ExitModal';
 import { langProps } from '../../types/Lang';
 
 export default function Home(){
@@ -157,24 +158,7 @@ export default function Home(){
     }
 
     function closeSession(){
-        api.get('/logout', {
-            headers: {
-                "Authorization": "Bearer " + sessionStorage.getItem("authToken")
-            }
-        }).then(function(res){
-            if(res.data.status !== "error"){
-                sessionStorage.removeItem("authToken");
-                setShowUnauth(true);
-            }else{
-                sessionStorage.removeItem("authToken");
-                setShowUnauth(true);
-                setLoginErrorSys(true);
-            }
-        }).catch(() => {
-            sessionStorage.removeItem("authToken");
-            setShowUnauth(true);
-            setLoginErrorSys(true);
-        });
+        setModalAtive('exit');
     }
 
     return(
@@ -256,7 +240,14 @@ export default function Home(){
                     <OTP modalAtive={setModalAtive} setHaveOTP={setHaveOTP} haveOPT={haveOTP} lang={langList || {}} />
                 </ModalContent>
             </ModalBox>
-            : null }
+            : modalAtive === 'exit' ?
+            <ModalBox>
+                <ModalContent>
+                    <ExitModal modalAtive={setModalAtive} lang={langList || {}} changeUnauth={setShowUnauth} />
+                </ModalContent>
+            </ModalBox>
+            : null
+        }
         </ZoneWindow>
     );
 }

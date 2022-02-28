@@ -47,5 +47,10 @@ export type langProps = {
     waitingOTP?: String,
     timeSeparator?: String,
     rovokeSuggest?: String,
-    logoutBtn?: String
+    logoutBtn?: String,
+    modalExitTitle?: String,
+    modalExitQuestion?: String,
+    modalExitBtn?: String,
+    modalExitError?: String,
+    modalExitSuccess?: String
 };

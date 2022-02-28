@@ -38,14 +38,10 @@ export const QRCodeImg = styled.img`
 `;
 
 export const InstLineOne = styled.p`
-    display: flex;
-    flex-direction: row;
     margin-top: 5px;
 `;
 
 export const InstLineTwo = styled.p`
-    display: flex;
-    flex-direction: row;
     margin-top: 15px;
 `;
 
