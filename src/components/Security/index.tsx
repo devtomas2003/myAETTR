@@ -67,34 +67,8 @@ export default function Security(props: SecurityProps){
     }, []);
     function extendTime(dateStr: string){
         const date = new Date(dateStr);
-        var day = "", month = "", hours = "", minutes = "", seconds = "";
-        if(date.getUTCDate() <= 9){
-            day = "0" + date.getUTCDate().toString();
-        }else{
-            day = date.getUTCDate().toString();
-        }
         const realMonth = date.getUTCMonth()+1;
-        if(realMonth <= 9){
-            month = "0" + realMonth.toString();
-        }else{
-            month = realMonth.toString();
-        }
-        if(date.getHours() <= 9){
-            hours = "0" + date.getHours().toString();
-        }else{
-            hours = date.getHours().toString();
-        }
-        if(date.getMinutes() <= 9){
-            minutes = "0" + date.getMinutes().toString();
-        }else{
-            minutes = date.getMinutes().toString();
-        }
-        if(date.getSeconds() <= 9){
-            seconds = "0" + date.getSeconds().toString();
-        }else{
-            seconds = date.getSeconds().toString();
-        }
-        return day + "/" + month + "/" + date.getFullYear() + " " + props.lang.timeSeparator + " " + hours + ":" + minutes + ":" + seconds;
+        return date.getUTCDate().toString().padStart(2, '0') + "/" + realMonth.toString().padStart(2, '0') + "/" + date.getFullYear() + " " + props.lang.timeSeparator + " " + date.getHours().toString().padStart(2, '0') + ":" + date.getMinutes().toString().padStart(2, '0') + ":" + date.getSeconds().toString().padStart(2, '0');
     }
     function openOTPModal(){
         props.modalAtive('otp');
