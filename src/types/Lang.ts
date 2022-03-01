@@ -52,5 +52,6 @@ export type langProps = {
     modalExitQuestion?: String,
     modalExitBtn?: String,
     modalExitError?: String,
-    modalExitSuccess?: String
+    modalExitSuccess?: String,
+    revokeQuestion?: String
 };

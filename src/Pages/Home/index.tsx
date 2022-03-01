@@ -29,14 +29,15 @@ import { FaUserShield } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import Security from '../../components/Security';
 import { useEffect, useState } from 'react';
-import { api } from '../../services/api';
+import { api, apiSAU } from '../../services/api';
 import { sha256 } from 'js-sha256';
 import OTP from '../../modals/OTP';
 import ExitModal from '../../modals/ExitModal';
 import { langProps } from '../../types/Lang';
+import { appName } from '../../configs';
 
 export default function Home(){
-
+    document.title = appName;
     const [showUnauth, setShowUnauth] = useState<Boolean>(true);
     const [loginErrorSys, setLoginErrorSys] = useState<Boolean>(false);
     const [loginErrorUsr, setLoginErrorUsr] = useState<Boolean>(false);
@@ -98,7 +99,7 @@ export default function Home(){
                     setLoginErrorSys(true);
                 });
             }else if(sessionStorage.getItem("authToken") !== null && sessionStorage.getItem("authSession") === null){
-                api.get('/validateJwt/', {
+                apiSAU.get('/validateJwt/', {
                     headers: {
                         "Authorization": "Bearer " + sessionStorage.getItem("authToken")
                     }
@@ -119,7 +120,7 @@ export default function Home(){
     }, []);
 
     function getBasicInfo(){
-        api.get('/getBasicInfo', {
+        apiSAU.get('/getBasicInfo', {
             headers: {
                 "Authorization": "Bearer " + sessionStorage.getItem("authToken")
             }
@@ -165,7 +166,7 @@ export default function Home(){
         <ZoneWindow>
             <MainContainer>
                 <HeaderBackground bgID={background}>
-                    <EntityTitle>AETTR</EntityTitle>
+                    <EntityTitle>{appName}</EntityTitle>
                 </HeaderBackground>
                 <UserAuthInfo>
                     <DataAuthInfo>
@@ -208,7 +209,7 @@ export default function Home(){
                 { !showUnauth ?
                 <ContentPage>
                     <MenuBox>
-                        <MenuItem isActive={activePage === "default" ? true : false}>{langList?.menuStart}</MenuItem>
+                        <MenuItem isActive={activePage === "default" ? true : false} onClick={() => {setActivePage('default')}}>{langList?.menuStart}</MenuItem>
                         <MenuItem isActive={false}>{langList?.menuProc}</MenuItem>
                         <MenuItem isActive={false}>{langList?.menuCards}</MenuItem>
                         <MenuItem isActive={activePage === "security" ? true : false} onClick={() => {setActivePage('security')}}>{langList?.menuSec}</MenuItem>
@@ -226,7 +227,7 @@ export default function Home(){
                 <ContentPage>
                     <UnauthBox>
                         <FaUserShield size={200} color="#444" />
-                        <UnauthText>{langList?.unauthMessage}</UnauthText>
+                        <UnauthText>{langList?.unauthMessage?.replace("_APPNAME_", appName)}</UnauthText>
                         <BtnLogin onClick={() => {startAuth()}}>
                             <LoginText>{langList?.unauthBtn}</LoginText>
                         </BtnLogin>

@@ -10,7 +10,8 @@ export const TitleContent = styled.h1`
 
 export const BoxLinks = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     margin-top: 10px;
 `;
 
@@ -77,13 +78,17 @@ export const AuthBodyTopCont = styled.p`
 
 export const SecState = styled.div`
     display: flex;
-    flex-direction: row;
-    &:not(:first-child){
-        margin-top: 3px;
-    }
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    width: 32%;
 `;
 
-export const StateTopic = styled.p``;
+export const StateTopic = styled.p`
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+`;
 
 export const StateMiniWin = styled.div`
     background: ${(props: propsStatus) => props.isAtive ? '#0162af' : '#444'};
@@ -92,17 +97,18 @@ export const StateMiniWin = styled.div`
     align-items: center;
     justify-content: center;
     padding: 2px 10px 2px 10px;
-    margin-left: 5px;
+    margin-top: 5px;
 `;
 
 export const MiniWinText = styled.label`
     color: #fff;
-    font-size: 12px;
+    font-size: 15px;
 `;
 
 export const BoxChange = styled.div`
+    margin-top: 10px;
+    margin-bottom: 10px;
     cursor: pointer;
-    margin-left: 5px;
 `;
 
 export const BoxCnt = styled.div`

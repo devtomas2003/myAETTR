@@ -30,7 +30,7 @@ import { AiOutlineClose, AiOutlineCheck, AiOutlineCheckCircle } from 'react-icon
 import { BiShow } from 'react-icons/bi';
 import { GiShieldDisabled } from 'react-icons/gi';
 import { useEffect, useState } from 'react';
-import { api } from '../../services/api';
+import { apiSAU } from '../../services/api';
 import QRCode from 'qrcode';
 import { langProps } from '../../types/Lang';
 
@@ -54,7 +54,7 @@ export default function OTP(props: OTPProps){
             if(props.haveOPT){
                 setActiveWindow('desactivate');
             }else{
-                api.get('/getOtpQrCode', {
+                apiSAU.get('/getOtpQrCode', {
                     headers: {
                         "Authorization": "Bearer " + sessionStorage.getItem("authToken")
                     }
@@ -78,7 +78,7 @@ export default function OTP(props: OTPProps){
         if(otpCode === ""){
             setShowError(true);
         }else{
-            api.post('/activateOTP', {
+            apiSAU.post('/activateOTP', {
                 otp: otpCode.replace(/ /g,'')
             }, {
                 headers: {
@@ -108,7 +108,7 @@ export default function OTP(props: OTPProps){
         if(otpCode === ""){
             setShowError(true);
         }else{
-            api.post('/desactivateOTP', {
+            apiSAU.post('/desactivateOTP', {
                 otp: otpCode.replace(/ /g,'')
             }, {
                 headers: {
