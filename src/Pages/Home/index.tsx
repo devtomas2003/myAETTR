@@ -21,7 +21,8 @@ import {
     ErrorText,
     BtnCloseError,
     ModalBox,
-    ModalContent
+    ModalContent,
+    ModalContentLoad
 } from './style';
 
 import { ImExit } from 'react-icons/im';
@@ -35,6 +36,8 @@ import OTP from '../../modals/OTP';
 import ExitModal from '../../modals/ExitModal';
 import { langProps } from '../../types/Lang';
 import { appName } from '../../configs';
+import Default from '../../components/Default';
+import Loading from '../../modals/Loading';
 
 export default function Home(){
     document.title = appName;
@@ -44,7 +47,7 @@ export default function Home(){
 
     const [background] = useState<Number>(Math.floor(Math.random() * (2 - 1 + 1) + 1));
     const [nome, setNome] = useState<String>('');
-    const [modalAtive, setModalAtive] = useState<string>('');
+    const [modalAtive, setModalAtive] = useState<string>('loading');
     const [activePage, setActivePage] = useState<string>('default');
     const [haveOTP, setHaveOTP] = useState<Boolean>(false);
 
@@ -93,10 +96,12 @@ export default function Home(){
                     }else{
                         sessionStorage.removeItem("authSession");        
                         setLoginErrorUsr(true);
+                        setModalAtive('');
                     }
                 }).catch(() => {
                     sessionStorage.removeItem("authSession");
                     setLoginErrorSys(true);
+                    setModalAtive('');
                 });
             }else if(sessionStorage.getItem("authToken") !== null && sessionStorage.getItem("authSession") === null){
                 apiSAU.get('/validateJwt/', {
@@ -109,11 +114,15 @@ export default function Home(){
                         setShowUnauth(false);
                     }else{
                         sessionStorage.removeItem("authToken");
+                        setModalAtive('');
                     }
                 }).catch(() => {
                     sessionStorage.removeItem("authToken");
                     setLoginErrorSys(true);
+                    setModalAtive('');
                 });
+            }else{
+                setModalAtive('');
             }
         }
         testAuth();
@@ -131,11 +140,13 @@ export default function Home(){
                 sessionStorage.removeItem("authToken");
                 setShowUnauth(true);
                 setLoginErrorSys(true);
+                setModalAtive('');
             }
         }).catch(() => {
             sessionStorage.removeItem("authToken");
             setShowUnauth(true);
             setLoginErrorSys(true);
+            setModalAtive('');
         });
     }
 
@@ -217,7 +228,7 @@ export default function Home(){
                     </MenuBox>
                     <ContainerBox>
                         { activePage === "default" ?
-                        <h1>Default</h1>
+                        <Default lang={langList || {}} setLoginErrSys={setLoginErrorSys} setShowUnauth={setShowUnauth} setModalAtive={setModalAtive} />
                         : activePage === "security" ?
                         <Security modalAtive={setModalAtive} setHaveOTP={setHaveOTP} haveOPT={haveOTP} lang={langList || {}} setUnauth={setShowUnauth} setLoginErrSys={setLoginErrorSys} />
                         : <h1>Not found</h1> }
@@ -246,6 +257,12 @@ export default function Home(){
                 <ModalContent>
                     <ExitModal modalAtive={setModalAtive} lang={langList || {}} changeUnauth={setShowUnauth} />
                 </ModalContent>
+            </ModalBox>
+            : modalAtive === 'loading' ?
+            <ModalBox>
+                <ModalContentLoad>
+                    <Loading lang={langList || {}} />
+                </ModalContentLoad>
             </ModalBox>
             : null
         }

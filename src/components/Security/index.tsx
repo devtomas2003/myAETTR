@@ -54,6 +54,7 @@ export default function Security(props: SecurityProps){
     const [listAuths, setListAuths] = useState<[]>();
     useEffect(function(){
         function populateSecInfo(){
+            props.modalAtive('loading');
             apiSAU.get('/getSecurityInfo', {
                 headers: {
                     "Authorization": "Bearer " + sessionStorage.getItem("authToken")
@@ -62,8 +63,10 @@ export default function Security(props: SecurityProps){
                 if(res.data.status !== "error"){
                     props.setHaveOTP(res.data.otpEnable);
                     setListAuths(res.data.listAuths);
+                    props.modalAtive('');
                 }
             }).catch(() => {
+                props.modalAtive('');
                 props.setUnauth(true);
                 props.setLoginErrSys(true);
             });
@@ -80,6 +83,7 @@ export default function Security(props: SecurityProps){
     }
     function revokeAuth(authID: string){
         if(confirm(props.lang.revokeQuestion?.toString())){
+            props.modalAtive('loading');
             apiSAU.get('/revokeAuth/' + authID, {
                 headers: {
                     "Authorization": "Bearer " + sessionStorage.getItem("authToken")
@@ -93,26 +97,31 @@ export default function Security(props: SecurityProps){
                     }).then(function(res){
                         if(res.data.status === "error"){
                             props.setUnauth(true);
+                            props.modalAtive('');
                         }else{
                             setListAuths(res.data.listAuths);
+                            props.modalAtive('');
                         }
                     }).catch(() => {
                         props.setUnauth(true);
+                        props.modalAtive('');
                         props.setLoginErrSys(true);
                     });
                 }else{
                     props.setUnauth(true);
+                    props.modalAtive('');
                 }
             }).catch(() => {
                 props.setUnauth(true);
                 props.setLoginErrSys(true);
+                props.modalAtive('');
             });
         }
     }
     return(
         <>
         <BoxCnt>
-            <TitleContent>{props.lang.securityTitle}</TitleContent>
+            <TitleContent>{props.lang.menuSec}</TitleContent>
             <LineSeparator />
             <BoxLinks>
                 <SecState>

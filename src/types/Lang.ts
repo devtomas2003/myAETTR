@@ -53,5 +53,15 @@ export type langProps = {
     modalExitBtn?: String,
     modalExitError?: String,
     modalExitSuccess?: String,
-    revokeQuestion?: String
+    revokeQuestion?: String,
+    wellcomePgDesc?: String,
+    godMorn?: String,
+    godAft?: String,
+    godNig?: String,
+    menSaud?: String,
+    womSaud?: String,
+    notificationTitle?: String,
+    appDescription?: String,
+    appDownloadLink?: String,
+    loading?: String
 };

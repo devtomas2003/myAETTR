@@ -189,3 +189,12 @@ export const ModalContent = styled.div`
     box-shadow: 0 2px 3px rgb(0 0 0 / 55%);
     border: 1px solid rgba(0,0,0,0.4);
 `;
+
+export const ModalContentLoad = styled.div`
+    background: #fff;
+    margin: 200px auto;
+    padding: 15px;
+    width: 13%;
+    box-shadow: 0 2px 3px rgb(0 0 0 / 55%);
+    border: 1px solid rgba(0,0,0,0.4);
+`;
