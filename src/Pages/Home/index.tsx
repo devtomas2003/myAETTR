@@ -145,9 +145,9 @@ export default function Home(){
         }).then(function(res){
             if(res.data.status === "ok"){
                 if(lang === "en"){
-                    location.href = "http://127.0.0.1:3000/login?authSession=" + res.data.token + "&lang=pt";
+                    location.href = "http://192.168.1.10:3000/login?authSession=" + res.data.token + "&lang=pt";
                 }else{
-                    location.href = "http://127.0.0.1:3000/login?authSession=" + res.data.token + "&lang=en";
+                    location.href = "http://192.168.1.10:3000/login?authSession=" + res.data.token + "&lang=en";
                 }
                 sessionStorage.setItem("authSession", res.data.token);
             }else{
@@ -219,7 +219,7 @@ export default function Home(){
                         { activePage === "default" ?
                         <h1>Default</h1>
                         : activePage === "security" ?
-                        <Security modalAtive={setModalAtive} setHaveOTP={setHaveOTP} haveOPT={haveOTP} lang={langList || {}} />
+                        <Security modalAtive={setModalAtive} setHaveOTP={setHaveOTP} haveOPT={haveOTP} lang={langList || {}} setUnauth={setShowUnauth} setLoginErrSys={setLoginErrorSys} />
                         : <h1>Not found</h1> }
                     </ContainerBox>
                 </ContentPage>
@@ -238,7 +238,7 @@ export default function Home(){
             { modalAtive === 'otp' ?
             <ModalBox>
                 <ModalContent>
-                    <OTP modalAtive={setModalAtive} setHaveOTP={setHaveOTP} haveOPT={haveOTP} lang={langList || {}} />
+                    <OTP modalAtive={setModalAtive} setHaveOTP={setHaveOTP} haveOPT={haveOTP} lang={langList || {}} setLoginErrSys={setLoginErrorSys} setUnauth={setShowUnauth} />
                 </ModalContent>
             </ModalBox>
             : modalAtive === 'exit' ?

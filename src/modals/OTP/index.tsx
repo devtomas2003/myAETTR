@@ -37,6 +37,8 @@ import { langProps } from '../../types/Lang';
 type OTPProps = {
     modalAtive: React.Dispatch<React.SetStateAction<string>>;
     setHaveOTP: React.Dispatch<React.SetStateAction<Boolean>>;
+    setUnauth: React.Dispatch<React.SetStateAction<Boolean>>;
+    setLoginErrSys: React.Dispatch<React.SetStateAction<Boolean>>;
     haveOPT: Boolean;
     lang: langProps;
 }
@@ -65,10 +67,13 @@ export default function OTP(props: OTPProps){
                             setQrcode(url.toString());
                         });
                     }else{
-                        location.reload();
+                        props.setUnauth(true);
+                        props.modalAtive('');
                     }
                 }).catch(() => {
-                    location.reload();
+                    props.setUnauth(true);
+                    props.setLoginErrSys(true);
+                    props.modalAtive('');
                 });
             }
         }
@@ -86,7 +91,8 @@ export default function OTP(props: OTPProps){
                 }
             }).then(function(res){
                 if(res.data.status === "error"){
-                    location.reload();
+                    props.setUnauth(true);
+                    props.modalAtive('');
                 }else if(res.data.status === "error-notvalid"){
                     setShowError(true);
                     setOTPCode('');
@@ -96,7 +102,9 @@ export default function OTP(props: OTPProps){
                     props.setHaveOTP(true);
                 }
             }).catch(() => {
-                location.reload();
+                props.setUnauth(true);
+                props.setLoginErrSys(true);
+                props.modalAtive('');
             });
         }
     }
@@ -116,7 +124,8 @@ export default function OTP(props: OTPProps){
                 }
             }).then(function(res){
                 if(res.data.status === "error"){
-                    location.reload();
+                    props.setUnauth(true);
+                    props.modalAtive('');
                 }else if(res.data.status === "error-notvalid"){
                     setShowError(true);
                     setOTPCode('');
@@ -126,7 +135,9 @@ export default function OTP(props: OTPProps){
                     props.setHaveOTP(false);
                 }
             }).catch(() => {
-                location.reload();
+                props.setUnauth(true);
+                props.setLoginErrSys(true);
+                props.modalAtive('');
             });
         }
     }

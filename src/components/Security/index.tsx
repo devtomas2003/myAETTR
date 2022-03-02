@@ -33,6 +33,8 @@ import { langProps } from '../../types/Lang';
 type SecurityProps = {
     modalAtive: React.Dispatch<React.SetStateAction<string>>;
     setHaveOTP: React.Dispatch<React.SetStateAction<Boolean>>;
+    setUnauth: React.Dispatch<React.SetStateAction<Boolean>>;
+    setLoginErrSys: React.Dispatch<React.SetStateAction<Boolean>>;
     haveOPT: Boolean;
     lang: langProps;
 }
@@ -60,11 +62,10 @@ export default function Security(props: SecurityProps){
                 if(res.data.status !== "error"){
                     props.setHaveOTP(res.data.otpEnable);
                     setListAuths(res.data.listAuths);
-                }else{
-                    location.reload();
                 }
             }).catch(() => {
-                location.reload();
+                props.setUnauth(true);
+                props.setLoginErrSys(true);
             });
         }
         populateSecInfo();
@@ -90,19 +91,21 @@ export default function Security(props: SecurityProps){
                             "Authorization": "Bearer " + sessionStorage.getItem("authToken")
                         }
                     }).then(function(res){
-                        if(res.data.status !== "error"){
-                            setListAuths(res.data.listAuths);
+                        if(res.data.status === "error"){
+                            props.setUnauth(true);
                         }else{
-                            location.reload();
+                            setListAuths(res.data.listAuths);
                         }
                     }).catch(() => {
-                        location.reload();
+                        props.setUnauth(true);
+                        props.setLoginErrSys(true);
                     });
                 }else{
-                    location.reload();
+                    props.setUnauth(true);
                 }
             }).catch(() => {
-                location.reload();
+                props.setUnauth(true);
+                props.setLoginErrSys(true);
             });
         }
     }
