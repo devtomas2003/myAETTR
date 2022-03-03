@@ -9,8 +9,6 @@ import {
     LineSeparator,
     Notifications,
     NotificationLine,
-    NotificationIcon,
-    NotificationBody,
     NBTitle,
     NBContent,
     AppContainer,
@@ -19,10 +17,10 @@ import {
     BoxQr,
     AppDesc,
     LinkDown,
-    APPTAndL
+    APPTAndL,
+    NotificationHeader
 } from './style';
 
-import { AiFillPushpin } from 'react-icons/ai';
 import QRCodeAPP from '../../assets/app.png';
 
 type SecurityProps = {
@@ -81,17 +79,14 @@ export default function Default(props: SecurityProps){
             <TitleZone>{props.lang.menuStart}</TitleZone>
             <AppDescription>{props.lang.wellcomePgDesc?.replace("_APPNAME_", appName).replace("_USERSMALLNAME_", basicInfo?.amigavel.toString() || '').replace("_SAUDATION_", getTimeSaudation() || '').replace("_NAMEPREFIX_", basicInfo?.sexo === 0 ? props.lang.menSaud?.toString() || '' : props.lang.womSaud?.toString() || '')}</AppDescription>
             <LineSeparator />
-            <TitleZone>{props.lang.notificationTitle}</TitleZone>
             <Notifications>
-                <NotificationLine>
-                    <NotificationIcon>
-                        <AiFillPushpin size={22} color="#666" />
-                    </NotificationIcon>
-                    <NotificationBody>
-                        <NBTitle>Notificação Teste</NBTitle>
-                        <NBContent>Conteudo Teste</NBContent>
-                    </NotificationBody>
-                </NotificationLine>
+                <NotificationHeader>
+                    <TitleZone>{props.lang.notificationTitle}</TitleZone>
+                </NotificationHeader>
+                    <NotificationLine>
+                        {/* <NBTitle>Notificação Teste</NBTitle> */}
+                        <NBContent>Não existem notificações</NBContent>
+                    </NotificationLine>
             </Notifications>
             <LineSeparator />
             <AppContainer>

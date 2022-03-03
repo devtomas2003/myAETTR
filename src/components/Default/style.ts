@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const PageContainer = styled.div``;
 
 export const TitleZone = styled.h1`
-    font-size: 16px;
+    font-size: 15px;
     &:nth-child(4){
         margin-top: 5px;
     }
@@ -29,25 +29,12 @@ export const Notifications = styled.div`
 
 export const NotificationLine = styled.div`
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    background: #fafafa;
-    border: 1px solid #ddd;
+    flex-direction: column;
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    background: #fff;
     padding: 5px;
-    &:not(:first-child){
-        margin-top: 5px;
-    }
-`;
-
-export const NotificationIcon = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-`;
-
-export const NotificationBody = styled.div`
-    margin-left: 10px;
 `;
 
 export const NBTitle = styled.p`
@@ -102,4 +89,12 @@ export const APPTAndL = styled.div`
     display: flex;
     margin-left: 15px;
     flex-direction: column;
+`;
+
+export const NotificationHeader = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 3px;
+    border: 1px solid #e5e5e5;
+    background: #fafafa;
 `;

@@ -38,6 +38,7 @@ import { langProps } from '../../types/Lang';
 import { appName } from '../../configs';
 import Default from '../../components/Default';
 import Loading from '../../modals/Loading';
+import Profile from '../../components/Profile';
 
 export default function Home(){
     document.title = appName;
@@ -221,7 +222,7 @@ export default function Home(){
                 <ContentPage>
                     <MenuBox>
                         <MenuItem isActive={activePage === "default" ? true : false} onClick={() => {setActivePage('default')}}>{langList?.menuStart}</MenuItem>
-                        <MenuItem isActive={false}>{langList?.menuProc}</MenuItem>
+                        <MenuItem isActive={activePage === "profile" ? true : false} onClick={() => {setActivePage('profile')}}>{langList?.menuProc}</MenuItem>
                         <MenuItem isActive={false}>{langList?.menuCards}</MenuItem>
                         <MenuItem isActive={activePage === "security" ? true : false} onClick={() => {setActivePage('security')}}>{langList?.menuSec}</MenuItem>
                         <MenuItem isActive={false}>{langList?.menuMails}</MenuItem>
@@ -231,6 +232,8 @@ export default function Home(){
                         <Default lang={langList || {}} setLoginErrSys={setLoginErrorSys} setShowUnauth={setShowUnauth} setModalAtive={setModalAtive} />
                         : activePage === "security" ?
                         <Security modalAtive={setModalAtive} setHaveOTP={setHaveOTP} haveOPT={haveOTP} lang={langList || {}} setUnauth={setShowUnauth} setLoginErrSys={setLoginErrorSys} />
+                        : activePage === "profile" ?
+                        <Profile />
                         : <h1>Not found</h1> }
                     </ContainerBox>
                 </ContentPage>
