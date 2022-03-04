@@ -16,6 +16,7 @@ import { FaUserTie } from 'react-icons/fa';
 import { useState } from 'react';
 import ID from './ID';
 import DataComp from './DataComp';
+import Filiation from './Filiation';
 
 export default function Profile(){
     const [activeZone, setActiveZone] = useState<Number>(0);
@@ -51,7 +52,9 @@ export default function Profile(){
                     <ID />
                     : activeZone === 1 ?
                     <DataComp />
-                    : null }
+                    : activeZone === 2 ?
+                    <Filiation />
+                    : null  }
                 </ProcessBody>
             </ProcessZone>
         </Container>

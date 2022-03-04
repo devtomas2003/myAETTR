@@ -37,11 +37,6 @@ export const NotificationLine = styled.div`
     padding: 5px;
 `;
 
-export const NBTitle = styled.p`
-    margin-bottom: 2px;
-    font-size: 16px;
-`;
-
 export const NBContent = styled.p`
     color: #666;
     font-size: 15px;

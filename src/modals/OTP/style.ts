@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-
-`;
+export const Container = styled.div``;
 
 export const ModalTitle = styled.h1`
     font-size: 18px;
@@ -50,9 +48,7 @@ export const ListApps = styled.ul`
     margin-top: 5px;
 `;
 
-export const ListLine = styled.li`
-
-`;
+export const ListLine = styled.li``;
 
 export const ListLink = styled.a`
     color: #333;

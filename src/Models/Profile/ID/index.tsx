@@ -35,6 +35,7 @@ import {
 
 import { MdOutlinePhotoCamera } from 'react-icons/md';
 import ProfileDefault from '../../../assets/profile_default.jpg';
+import Countrys from '../../../components/CountrysOptions';
 
 export default function ID(){
     return (
@@ -101,9 +102,7 @@ export default function ID(){
                             <BoxInput>
                                 <InputTitle>Nacionalidade:</InputTitle>
                                 <InputSelect>
-                                    <OptionSelect value="PRT">Portugal</OptionSelect>
-                                    <OptionSelect value="BRA">Brasil</OptionSelect>
-                                    <OptionSelect value="ALE">Alemanhã</OptionSelect>
+                                    <Countrys />
                                 </InputSelect>
                             </BoxInput>
                         </LineInfo>

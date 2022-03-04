@@ -28,7 +28,7 @@ import {
 import { ImExit } from 'react-icons/im';
 import { FaUserShield } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
-import Security from '../../components/Security';
+import Security from '../../Models/Security';
 import { useEffect, useState } from 'react';
 import { api, apiSAU } from '../../services/api';
 import { sha256 } from 'js-sha256';
@@ -36,9 +36,9 @@ import OTP from '../../modals/OTP';
 import ExitModal from '../../modals/ExitModal';
 import { langProps } from '../../types/Lang';
 import { appName } from '../../configs';
-import Default from '../../components/Default';
+import Default from '../../Models/Default';
 import Loading from '../../modals/Loading';
-import Profile from '../../components/Profile';
+import Profile from '../../Models/Profile';
 
 export default function Home(){
     document.title = appName;
