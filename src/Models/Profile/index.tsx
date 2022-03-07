@@ -17,6 +17,7 @@ import { useState } from 'react';
 import ID from './ID';
 import DataComp from './DataComp';
 import Filiation from './Filiation';
+import EncEdu from './EncEdu';
 
 export default function Profile(){
     const [activeZone, setActiveZone] = useState<Number>(0);
@@ -54,6 +55,8 @@ export default function Profile(){
                     <DataComp />
                     : activeZone === 2 ?
                     <Filiation />
+                    : activeZone === 3 ?
+                    <EncEdu />
                     : null  }
                 </ProcessBody>
             </ProcessZone>
